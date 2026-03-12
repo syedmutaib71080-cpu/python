@@ -2,11 +2,11 @@ HISTORY_FILE = "history.txt"
 
 def show_history():
     file = open(HISTORY_FILE, "r")
-    line = file.readline()
-    if len(line) == 0:
+    lines = file.readlines()
+    if len(lines) == 0:
         print("No history found.")
     else:
-        for line in reversed(line):
+        for line in reversed(lines):
             print(line.strip())
     file.close()
 
@@ -47,19 +47,26 @@ def calculate(user_input):
         return None
     
     if int(result) == result:
-        return int(result)
+        result = int(result)
     print("Result:", result)
     save_to_history(user_input, result)
-    
+   
     
 def main():
-    user_input = input("enter calculation (e.g., 2 + 2): or 'history' to view history, 'clear' to clear history: ").strip( )
-    if user_input.lower() == "history":
-        show_history()
-    elif user_input.lower() == "clear":
-        clear_history()
-    else:
-        result = calculate(user_input)
-        if result is not None:
-            print("Result:", result)
-            save_to_history(user_input, result)   
+    print("---- Simple Calculator with History ---")
+    while True:
+        user_input = input("enter calculation (e.g., 2 + 2): or 'history' to view history, 'clear' to clear history: ").strip()
+        if user_input.lower() == "exit":
+            print("Exiting calculator.")
+            break
+        elif user_input.lower() == "history":
+            show_history()
+        elif user_input.lower() == "clear":
+            clear_history()
+        else:
+            result = calculate(user_input)
+            if result is not None:
+                print(f"[{user_input}] = {result}")
+                save_to_history(user_input, result)
+
+main()
